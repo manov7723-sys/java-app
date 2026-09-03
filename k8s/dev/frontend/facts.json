@@ -1,0 +1,86 @@
+{
+  "schema_version": 3,
+  "service_name": "frontend",
+  "service_path": "frontend",
+  "runtime": "nodejs",
+  "framework": "vite",
+  "workload_type": "static_site",
+  "workload_evidence": {
+    "location": "frontend/package.json:7",
+    "why": "\"vite\" script used for dev/build, indicating a frontend static site build process"
+  },
+  "port": {
+    "value": 3000,
+    "source": "env_default",
+    "location": "frontend/.env.example:8",
+    "env_driven": true
+  },
+  "bind_address": {
+    "value": "0.0.0.0",
+    "location": "frontend/.env.example:9"
+  },
+  "health_route": {
+    "exists": true,
+    "path": "/",
+    "location": "frontend/.env.example:5"
+  },
+  "env_vars": [
+    {
+      "name": "VITE_API_URL",
+      "required": false,
+      "location": "frontend/.env.example:5",
+      "default": "http://localhost:8080"
+    },
+    {
+      "name": "VITE_PORT",
+      "required": false,
+      "location": "frontend/.env.example:8",
+      "default": "3000"
+    },
+    {
+      "name": "VITE_HOST",
+      "required": false,
+      "location": "frontend/.env.example:9",
+      "default": "0.0.0.0"
+    },
+    {
+      "name": "VITE_APP_TITLE",
+      "required": false,
+      "location": "frontend/.env.example:12",
+      "default": "Spring Boot Todo App"
+    },
+    {
+      "name": "VITE_APP_DESCRIPTION",
+      "required": false,
+      "location": "frontend/.env.example:13",
+      "default": "A full-stack todo application"
+    },
+    {
+      "name": "VITE_ENABLE_DEBUG",
+      "required": false,
+      "location": "frontend/.env.example:16",
+      "default": "true"
+    },
+    {
+      "name": "VITE_ENABLE_MOCK_DATA",
+      "required": false,
+      "location": "frontend/.env.example:17",
+      "default": "false"
+    }
+  ],
+  "entrypoint": {
+    "command": "vite preview",
+    "target_file": "frontend/package.json",
+    "location": "frontend/package.json:10"
+  },
+  "workload_details": {
+    "publishes_from_browser": true
+  },
+  "notes": [
+    "The app is a Vite/React static site per package.json and .env.example.",
+    "No explicit health route found, but / is the default health path for static sites served by nginx or vite preview.",
+    "Port and bind address are read from env vars with example defaults in .env.example.",
+    "VITE_API_URL indicates browser-side API calls, so API backends need shared ALB path routing."
+  ],
+  "bundle_hash": "6fe410852aba0f0c2fd58bcac8b4e98548dab67e8abc663c3be1a8027ad3ef8c"
+}
