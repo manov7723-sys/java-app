@@ -64,7 +64,7 @@ spec:
           envFrom:
             - secretRef:
                 name: app-db
-                optional: true
+                optional: false
             - secretRef:
                 name: app-cache
                 optional: true
