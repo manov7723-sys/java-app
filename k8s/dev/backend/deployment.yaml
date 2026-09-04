@@ -37,7 +37,7 @@ spec:
           image: 400200465532.dkr.ecr.us-east-1.amazonaws.com/java-app-backend:latest
           imagePullPolicy: Always
           ports:
-            - containerPort: 8080
+            - containerPort: 8081
           resources:
             requests:
               cpu: 250m
@@ -52,20 +52,20 @@ spec:
           # to upgrade these probes to httpGet.
           startupProbe:
             tcpSocket:
-              port: 8080
+              port: 8081
             periodSeconds: 5
             failureThreshold: 30
             timeoutSeconds: 5
           readinessProbe:
             tcpSocket:
-              port: 8080
+              port: 8081
             initialDelaySeconds: 3
             periodSeconds: 10
             failureThreshold: 3
             timeoutSeconds: 5
           livenessProbe:
             tcpSocket:
-              port: 8080
+              port: 8081
             initialDelaySeconds: 10
             periodSeconds: 20
             failureThreshold: 5
@@ -97,7 +97,7 @@ spec:
                 optional: true
           env:
             - name: PORT
-              value: "8080"
+              value: "8081"
             - name: FRONTEND_URL
               value: http://frontend.dev23.svc.cluster.local
       volumes:
