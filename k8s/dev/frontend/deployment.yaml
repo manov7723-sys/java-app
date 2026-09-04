@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: java-app-frontend
-  namespace: dev23
+  namespace: devo2
   labels:
     app.kubernetes.io/name: java-app-frontend
     app.kubernetes.io/managed-by: deepagent
@@ -19,11 +19,6 @@ spec:
       maxUnavailable: 0
   template:
     metadata:
-      annotations:
-        instrumentation.opentelemetry.io/inject-java: "false"
-        instrumentation.opentelemetry.io/inject-nodejs: "false"
-        instrumentation.opentelemetry.io/inject-python: "false"
-        instrumentation.opentelemetry.io/inject-dotnet: "false"
       labels:
         app.kubernetes.io/name: java-app-frontend
         app.kubernetes.io/managed-by: deepagent
@@ -33,7 +28,7 @@ spec:
           image: 400200465532.dkr.ecr.us-east-1.amazonaws.com/java-app-frontend:latest
           imagePullPolicy: Always
           ports:
-            - containerPort: 8080
+            - containerPort: 80
           resources:
             requests:
               cpu: 25m
@@ -44,14 +39,14 @@ spec:
           startupProbe:
             httpGet:
               path: /
-              port: 8080
+              port: 80
             periodSeconds: 5
-            failureThreshold: 12
+            failureThreshold: 30
             timeoutSeconds: 5
           readinessProbe:
             httpGet:
               path: /
-              port: 8080
+              port: 80
             initialDelaySeconds: 3
             periodSeconds: 10
             failureThreshold: 3
@@ -59,13 +54,11 @@ spec:
           livenessProbe:
             httpGet:
               path: /
-              port: 8080
+              port: 80
             initialDelaySeconds: 10
             periodSeconds: 20
             failureThreshold: 5
             timeoutSeconds: 5
-          securityContext:
-            allowPrivilegeEscalation: false
           envFrom:
             - secretRef:
                 name: app-db
@@ -84,8 +77,8 @@ spec:
                 optional: true
           env:
             - name: PORT
-              value: "8080"
+              value: "80"
             - name: SESSION_COOKIE_SECURE
               value: "false"
             - name: BACKEND_URL
-              value: http://backend.dev23.svc.cluster.local
+              value: http://backend.devo2.svc.cluster.local
