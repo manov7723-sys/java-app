@@ -14,5 +14,6 @@ COPY --from=build /src/target/*.jar app.jar
 # with CreateContainerConfigError under our restricted profile).
 RUN addgroup -S -g 10001 app && adduser -S -u 10001 -G app app
 USER 10001
+ENV PORT=8080
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
