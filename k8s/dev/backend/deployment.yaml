@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: java-app-backend
-  namespace: ui7
+  namespace: uu9
   labels:
     app.kubernetes.io/name: java-app-backend
     app.kubernetes.io/managed-by: deepagent
@@ -37,7 +37,7 @@ spec:
           image: 400200465532.dkr.ecr.us-east-1.amazonaws.com/java-app-backend:latest
           imagePullPolicy: Always
           ports:
-            - containerPort: 80
+            - containerPort: 8080
           resources:
             requests:
               cpu: 250m
@@ -52,21 +52,21 @@ spec:
           # to upgrade these probes to httpGet.
           startupProbe:
             tcpSocket:
-              port: 80
+              port: 8080
             periodSeconds: 5
             failureThreshold: 30
             timeoutSeconds: 5
           readinessProbe:
             tcpSocket:
-              port: 80
-            initialDelaySeconds: 3
+              port: 8080
+            initialDelaySeconds: 20
             periodSeconds: 10
             failureThreshold: 3
             timeoutSeconds: 5
           livenessProbe:
             tcpSocket:
-              port: 80
-            initialDelaySeconds: 10
+              port: 8080
+            initialDelaySeconds: 60
             periodSeconds: 20
             failureThreshold: 5
             timeoutSeconds: 5
@@ -97,11 +97,11 @@ spec:
                 optional: true
           env:
             - name: PORT
-              value: "80"
+              value: "8080"
             - name: SESSION_COOKIE_SECURE
               value: "false"
             - name: FRONTEND_URL
-              value: http://frontend.ui7.svc.cluster.local
+              value: http://frontend.uu9.svc.cluster.local
       volumes:
         - name: writable-tmp
           emptyDir: {}
